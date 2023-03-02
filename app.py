@@ -19,27 +19,20 @@ def index():
         documents = SimpleDirectoryReader('data').load_data()
         index = GPTSimpleVectorIndex(documents)
         index.save_to_disk('index.json')
+
         tdatetime = dt.now()
         tstr = tdatetime.strftime('%Y/%m/%d %H:%M:%S')
         with open('file.log', 'a') as f:
             print("・" + tstr + " -------", file=f)
             print("Q." + question, file=f)
+
         response = index.query(generate_prompt(question))
+
         with open('file.log', 'a') as f:
             print(response, file=f)
             print("\n")
-            print("\n")
-        # index = GPTSimpleVectorIndex.load_from_disk("index.json")
-
-        # response = openai.Completion.create(
-        #     model="text-davinci-003",
-        #     prompt=generate_prompt(question),
-        #     temperature=0.6,
-        #     max_tokens=2048,
-        # )
 
         return redirect(url_for("index", result=response))
-
     result = request.args.get("result")
     return render_template("index.html", result=result, logs=logs)
 
