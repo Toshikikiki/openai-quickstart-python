@@ -1,4 +1,5 @@
 import os
+from datetime import datetime as dt
 
 import openai
 from flask import Flask, redirect, render_template, request, url_for
@@ -12,15 +13,22 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 @app.route("/", methods=("GET", "POST"))
 def index():
     print(request.data)
-    logs = "test"
+    logs = ""
     if request.method == "POST":
         question = request.form["animal"]
         documents = SimpleDirectoryReader('data').load_data()
         index = GPTSimpleVectorIndex(documents)
         index.save_to_disk('index.json')
-        print(question)
+        tdatetime = dt.now()
+        tstr = tdatetime.strftime('%Y/%m/%d %H:%M:%S')
+        with open('file.log', 'a') as f:
+            print("・" + tstr + " -------", file=f)
+            print("Q." + question, file=f)
         response = index.query(generate_prompt(question))
-        print(response)
+        with open('file.log', 'a') as f:
+            print(response, file=f)
+            print("\n")
+            print("\n")
         # index = GPTSimpleVectorIndex.load_from_disk("index.json")
 
         # response = openai.Completion.create(
@@ -38,4 +46,3 @@ def index():
 
 def generate_prompt(question):
     return question + "日本語で応えて下さい。また、読み込んだファイルに書いてあることから応えてください。"
-    
