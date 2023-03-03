@@ -13,6 +13,7 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 @app.route("/", methods=("GET", "POST"))
 def index():
     print(request.data)
+    feedbackURL = "https://forms.gle/rH29kCx5Tmxv9MPC7"
     logs = ""
     if request.method == "POST":
         question = request.form["animal"]
@@ -34,7 +35,8 @@ def index():
 
         return redirect(url_for("index", result=response))
     result = request.args.get("result")
-    return render_template("index.html", result=result, logs=logs)
+
+    return render_template("index.html", result=result, logs=logs, url=feedbackURL)
 
 
 def generate_prompt(question):

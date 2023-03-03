@@ -2,13 +2,17 @@
 
 <head>
   <title>OpenAI Quickstart</title>
-  <link rel="shortcut icon" href="{{ url_for('static', filename='question.jpg') }}" />
+  <link rel="shortcut icon" href="{{ url_for('static', filename='question.png') }}" />
   <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}" />
+  <meta name="viewport" content="width=device-width">
 </head>
 
 <body>
-  <img src="{{ url_for('static', filename='question.jpg') }}" class="icon" width="200" />
-  <h3>FAQ</h3>
+  <h6 class="testsign">(test)</h6>
+  <img src="{{ url_for('static', filename='question.png') }}" class="icon" width="200" />
+  <h4 class="subtitle">OWNDAYS</h4>
+  <h3 class="title">FAQ</h3>
   <form action="/" method="post">
     <input type="text" name="animal" placeholder="Enter Question" required />
     <input type="submit" value="Generate Answer" />
@@ -19,4 +23,7 @@
   {% if logs %}
   <div>{{ logs }}</div>
   {% endif %}
+  <div class="feedback">
+    <a href="{{ url }}">フィードバックはこちらから</a>
+  </div>
 </body>
